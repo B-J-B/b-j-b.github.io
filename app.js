@@ -19,7 +19,6 @@ const app = initializeApp(firebaseConfig);
 // Initialiser Firestore (la base de données)
 const db = firebase.firestore();
 
-// Ajouter une tenue dans la base de données Firebase
 function ajouterTenue(nom, quantite) {
   db.collection("tenues").add({
     nom: nom,
@@ -31,9 +30,40 @@ function ajouterTenue(nom, quantite) {
   });
 }
 
-// Exemple pour lire les tenues
-db.collection("tenues").get().then((querySnapshot) => {
-  querySnapshot.forEach((doc) => {
-    console.log(`${doc.id} => ${doc.data().nom}`);
+// Appel de la fonction pour ajouter une tenue (exemple)
+ajouterTenue("Tenue de basket", 15);
+
+function afficherTenues() {
+  db.collection("tenues").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data().nom}, Quantité: ${doc.data().quantite}`);
+    });
   });
-});
+}
+
+// Appel de la fonction pour afficher toutes les tenues
+afficherTenues();
+
+function mettreAJourTenue(idTenue, nouvelleQuantite) {
+  db.collection("tenues").doc(idTenue).update({
+    quantite: nouvelleQuantite
+  }).then(() => {
+    console.log("Quantité mise à jour avec succès !");
+  }).catch((error) => {
+    console.error("Erreur lors de la mise à jour : ", error);
+  });
+}
+
+// Appel de la fonction pour mettre à jour (exemple avec un id donné)
+mettreAJourTenue("ID_DE_LA_TENUE", 30);
+
+function supprimerTenue(idTenue) {
+  db.collection("tenues").doc(idTenue).delete().then(() => {
+    console.log("Tenue supprimée avec succès !");
+  }).catch((error) => {
+    console.error("Erreur lors de la suppression : ", error);
+  });
+}
+
+// Appel de la fonction pour supprimer une tenue (exemple avec un id donné)
+supprimerTenue("ID_DE_LA_TENUE");
