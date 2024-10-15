@@ -1,38 +1,17 @@
-document.getElementById('form-tenue').addEventListener('submit', ajouterTenue);
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-let tenues = [];
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBShcMFjDWZcfFyOjtYMKp8HijeN1fVwG4",
+  authDomain: "itaparicabada.firebaseapp.com",
+  projectId: "itaparicabada",
+  storageBucket: "itaparicabada.appspot.com",
+  messagingSenderId: "844644064770",
+  appId: "1:844644064770:web:bc1288ad7a05d94016511b"
+};
 
-function ajouterTenue(e) {
-  e.preventDefault();
-  
-  const nom = document.getElementById('nom').value;
-  const quantite = document.getElementById('quantite').value;
-
-  if (nom && quantite) {
-    tenues.push({ nom, quantite });
-    afficherTenues();
-    document.getElementById('form-tenue').reset();
-  }
-}
-
-function afficherTenues() {
-  const tableTenues = document.getElementById('table-tenues');
-  tableTenues.innerHTML = '';
-
-  tenues.forEach((tenue, index) => {
-    const row = document.createElement('tr');
-
-    row.innerHTML = `
-      <td>${tenue.nom}</td>
-      <td>${tenue.quantite}</td>
-      <td><button class="btn btn-danger" onclick="supprimerTenue(${index})">Supprimer</button></td>
-    `;
-
-    tableTenues.appendChild(row);
-  });
-}
-
-function supprimerTenue(index) {
-  tenues.splice(index, 1);
-  afficherTenues();
-}
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
